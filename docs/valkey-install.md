@@ -89,7 +89,7 @@ journalctl -u llm-status-publisher.service -n 50
 
 ## 注意
 
-- boulevard 移行後は `valkey-local.service` を停止する
+- gateway host へ移行後は `valkey-local.service` を停止する
 - 移行前に `config/valkey.env` の `VALKEY_HOST` を変更し、publisher の書き込み先を切り替える
 - 推論プロセスより `valkey` を先に起動しておくと状態 publish が安定する
 - `snap services valkey` で `valkey.server` が `active` の場合、ローカル起動スクリプトとは併用しない

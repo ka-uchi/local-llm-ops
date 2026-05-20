@@ -69,4 +69,4 @@ scripts/bench-gemma4-31b.sh
 
 - 停止対象サービスが本当に対象モデルか確認する
 - `nvidia-smi` と `scripts/healthcheck.sh` で現状を確認する
-- boulevard 側の proxy 接続先への影響を確認する
+- gateway host 側の proxy 接続先への影響を確認する

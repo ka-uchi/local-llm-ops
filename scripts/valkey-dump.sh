@@ -112,7 +112,7 @@ password = os.environ.get("VALKEY_PASSWORD", "")
 prefix = os.environ["KEY_PREFIX"]
 
 keys = [
-    f"{prefix}:node:echo-chamber",
+    f"{prefix}:node:inference-node-01",
     f"{prefix}:model:qwen36",
     f"{prefix}:model:gemma4-31b",
     f"{prefix}:gpu:0",

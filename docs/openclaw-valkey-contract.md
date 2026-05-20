@@ -2,13 +2,13 @@
 
 ## 目的
 
-`openclaw` が Echo-Chamber 上のローカル LLM 稼働状態を参照し、ルーティング先と利用可否を判断できるようにする。
+`openclaw` が inference host 上のローカル LLM 稼働状態を参照し、ルーティング先と利用可否を判断できるようにする。
 
 ## 参照キー
 
 ### ノード全体
 
-キー: `llm:node:echo-chamber`
+キー: `llm:node:inference-node-01`
 
 hash 項目:
 
@@ -71,7 +71,7 @@ hash 項目:
 `openclaw` は以下の順で判定する。
 
 1. `llm:control:cluster_mode_override`
-2. `llm:node:echo-chamber.cluster_mode`
+2. `llm:node:inference-node-01.cluster_mode`
 3. 個別モデルの `status`
 
 ## 判定ルール
@@ -97,4 +97,4 @@ hash 項目:
 
 - `openclaw` 側はキー名をハードコードしてよいが、`VALKEY_HOST` と `VALKEY_PORT` は環境変数化する
 - `cluster_mode_override` がある場合は、ノード hash の `cluster_mode` より常に優先する
-- boulevard 移行後もキー名と項目名は変えない
+- gateway host へ移行後もキー名と項目名は変えない

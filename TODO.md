@@ -3,7 +3,7 @@
 ## 優先
 
 - `openclaw` 側の Valkey 読み取り実装を着手する
-- boulevard 側の `VALKEY_HOST` / `VALKEY_PORT` 切替方法を固定する
+- gateway host 側の `VALKEY_HOST` / `VALKEY_PORT` 切替方法を固定する
 - 70B 用の `config/70b.env` を追加する
 - 70B 用の `scripts/start-70b.sh` と `scripts/stop-70b.sh` を追加する
 - 70B 起動後の `llm:model:model-70b` キー仕様を追加する
@@ -34,6 +34,6 @@
 
 ## 将来
 
-- boulevard 側へ Valkey を移設する
+- gateway host 側へ Valkey を移設する
 - `proxy` / Discord bot / OpenClaw の経路ごとの利用制限を設計する
 - 70B と常用モデルの切替自動化を検討する

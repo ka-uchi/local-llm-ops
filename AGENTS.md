@@ -1,6 +1,6 @@
 # AGENTS.md
 
-このディレクトリは Echo-Chamber 上のローカル LLM 運用管理を目的とする。
+このディレクトリは inference host 上のローカル LLM 運用管理を目的とする。
 
 ## 目的
 
@@ -8,7 +8,7 @@
 - Qwen3.6-35B-A3B を `RTX 4090` に固定
 - Gemma 4 31B IT を `RTX 3090` に固定
 - 将来は 70B 級モデルを 2 GPU 分散で起動
-- boulevard 上の proxy / OpenClaw / Discord bot から利用
+- gateway host 上の proxy / OpenClaw / Discord bot から利用
 
 ## 変更方針
 
@@ -24,8 +24,8 @@
 ## ファイル配置ルール
 
 - `config/`: モデルごとの env とレジストリ
-- `config/valkey.env`: Echo-Chamber 上の暫定状態ストア設定
-- `config/valkey-server.env`: Echo-Chamber 上のローカル Valkey サーバ設定
+- `config/valkey.env`: inference host 上の暫定状態ストア設定
+- `config/valkey-server.env`: inference host 上のローカル Valkey サーバ設定
 - `scripts/`: 起動停止、ヘルスチェック、GPU 状態確認、ベンチ
 - `systemd/`: サービス定義サンプル
 - `docs/`: 運用手順、注意点、将来拡張

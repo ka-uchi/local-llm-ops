@@ -2,7 +2,7 @@
 
 ## 目的
 
-当面は `Echo-Chamber` 側に `valkey` を置き、`openclaw` から参照するモデル状態を一元化する。
+当面は `inference host` 側に `valkey` を置き、`openclaw` から参照するモデル状態を一元化する。
 
 この構成では、推論実体と状態更新元が同居するため、初期実装を最短で立ち上げやすい。
 
@@ -16,15 +16,15 @@
 
 ## 当面の配置
 
-- `valkey`: Echo-Chamber 上
-- 参照先: boulevard 上の `openclaw`
-- 将来: boulevard に移設しても、キー設計は維持する
+- `valkey`: inference host 上
+- 参照先: gateway host 上の `openclaw`
+- 将来: gateway host に移設しても、キー設計は維持する
 
 ## キー設計
 
 ### ノード全体
 
-- `llm:node:echo-chamber`
+- `llm:node:inference-node-01`
   - `node_id`
   - `cluster_mode`
   - `updated_at`
@@ -109,9 +109,9 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now llm-status-publisher.timer
 ```
 
-## boulevard への移行方針
+## gateway host への移行方針
 
-後で `valkey` を boulevard に移す場合も、以下は変えない。
+後で `valkey` を gateway host に移す場合も、以下は変えない。
 
 - キー名
 - hash の項目名

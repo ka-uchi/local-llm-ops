@@ -1,6 +1,6 @@
 # ~/llm ローカルLLM運用リポジトリ
 
-Echo-Chamber 上で `llama.cpp` を使い、常用 2 モデルを GPU 固定で運用するためのリポジトリです。
+inference host 上で `llama.cpp` を使い、常用 2 モデルを GPU 固定で運用するためのリポジトリです。
 
 - Qwen3.6-35B-A3B: `RTX 4090`, `port 8080`
 - Gemma 4 31B IT: `RTX 3090`, `port 8081`
