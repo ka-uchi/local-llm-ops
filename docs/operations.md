@@ -40,7 +40,11 @@ sudo systemctl enable --now llm-status-publisher.timer
 ```bash
 scripts/bench-qwen36.sh
 scripts/bench-gemma4-31b.sh
+scripts/test-gemma4-complex.sh
+MAX_TOKENS=512 scripts/test-gemma4-complex.sh "複雑な問い合わせ"
 ```
+
+Gemma 4 は `reasoning_content` を返すことがあるため、実運用では最終回答として `message.content` だけを使う。
 
 ## ログ
 

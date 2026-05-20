@@ -74,6 +74,8 @@ scripts/stop-gemma4-31b.sh
 scripts/healthcheck.sh
 scripts/bench-qwen36.sh
 scripts/bench-gemma4-31b.sh
+scripts/test-gemma4-complex.sh
+MAX_TOKENS=512 scripts/test-gemma4-complex.sh "複雑な問い合わせ"
 ```
 
 ### 4. ローカル Valkey

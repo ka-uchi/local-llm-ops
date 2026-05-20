@@ -97,4 +97,6 @@ hash 項目:
 
 - `openclaw` 側はキー名をハードコードしてよいが、`VALKEY_HOST` と `VALKEY_PORT` は環境変数化する
 - `cluster_mode_override` がある場合は、ノード hash の `cluster_mode` より常に優先する
+- Chat Completions 応答では `message.content` のみを最終回答として扱う
+- `reasoning_content` が返ってきても、`openclaw` 側ではユーザー向け応答として採用しない
 - gateway host へ移行後もキー名と項目名は変えない

@@ -1,12 +1,12 @@
 # 概要
 
-このリポジトリは、inference host 上で `llama.cpp` を使ったローカル LLM 運用を安定化するための管理レイヤーです。
+このリポジトリは、Echo-Chamber 上で `llama.cpp` を使ったローカル LLM 運用を安定化するための管理レイヤーです。
 
 ## 現在の運用
 
 - Qwen3.6-35B-A3B: `CUDA_VISIBLE_DEVICES=0`, `port 8080`
 - Gemma 4 31B IT: `CUDA_VISIBLE_DEVICES=1`, `port 8081`
-- gateway host 上の proxy から OpenClaw / Discord bot が利用
+- boulevard 上の proxy から OpenClaw / Discord bot が利用
 
 ## GPU 固定の考え方
 
