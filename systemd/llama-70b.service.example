@@ -1,0 +1,18 @@
+[Unit]
+Description=llama.cpp server for future 70B-class model
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kzkchd
+WorkingDirectory=/home/kzkchd/llm
+Environment=CUDA_VISIBLE_DEVICES=0,1
+ExecStart=/home/kzkchd/llm/llama.cpp/build/bin/llama-server --host 0.0.0.0 --port 8090 --model /home/kzkchd/llm/models/REPLACE_WITH_70B_MODEL.gguf --alias model-70b --ctx-size 8192 --batch-size 1024 --ubatch-size 256 --gpu-layers 999 --threads 16 --parallel 1 --main-gpu 0 --split-mode layer --tensor-split 1,1
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=180
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+.idea/
+
+cuda-keyring_*.deb
+llama.cpp/
+models/
+logs/
+var/
+
+*.log
+*.pid
+*.generated.conf
+
+__pycache__/

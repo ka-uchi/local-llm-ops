@@ -1,0 +1,15 @@
+[Unit]
+Description=Publish local LLM runtime status to Valkey
+After=network-online.target
+After=snap.valkey.server.service
+Wants=network-online.target
+Wants=snap.valkey.server.service
+
+[Service]
+Type=oneshot
+User=kzkchd
+WorkingDirectory=/home/kzkchd/llm
+ExecStart=/home/kzkchd/llm/scripts/publish-status-valkey.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run local LLM status publisher every 15 seconds
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=15s
+Persistent=true
+Unit=llm-status-publisher.service
+
+[Install]
+WantedBy=timers.target
