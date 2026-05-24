@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 ENV_FILE="${REPO_ROOT}/config/valkey.env"
+REGISTRY_TOOL="${REPO_ROOT}/scripts/model-registry.py"
 
 timestamp() {
   date '+%Y-%m-%d %H:%M:%S'
@@ -30,6 +31,7 @@ require_cmd() {
 }
 
 require_file "${ENV_FILE}" "env file"
+require_file "${REGISTRY_TOOL}" "registry tool"
 require_cmd python3
 
 # shellcheck disable=SC1090
@@ -41,6 +43,7 @@ export VALKEY_DB
 export VALKEY_PASSWORD
 export KEY_PREFIX
 export NODE_ID
+export MODEL_REGISTRY_JSON="$("${REGISTRY_TOOL}" json-all)"
 
 python3 - <<'PY'
 import json
@@ -111,15 +114,27 @@ port = int(os.environ["VALKEY_PORT"])
 db = int(os.environ["VALKEY_DB"])
 password = os.environ.get("VALKEY_PASSWORD", "")
 prefix = os.environ["KEY_PREFIX"]
+models = json.loads(os.environ["MODEL_REGISTRY_JSON"])
 
 keys = [
     f"{prefix}:node:{os.environ['NODE_ID']}",
-    f"{prefix}:model:qwen36",
-    f"{prefix}:model:gemma4-31b",
-    f"{prefix}:gpu:0",
-    f"{prefix}:gpu:1",
-    f"{prefix}:control:cluster_mode_override",
 ]
+
+gpu_indexes: set[str] = set()
+for model in models:
+    if "id" in model:
+        keys.append(f"{prefix}:model:{model['id']}")
+
+    if "cuda_visible_devices" in model:
+        for gpu_index in model["cuda_visible_devices"].split(","):
+            gpu_index = gpu_index.strip()
+            if gpu_index:
+                gpu_indexes.add(gpu_index)
+
+for gpu_index in sorted(gpu_indexes):
+    keys.append(f"{prefix}:gpu:{gpu_index}")
+
+keys.append(f"{prefix}:control:cluster_mode_override")
 
 try:
     sock = socket.create_connection((host, port), timeout=3)
