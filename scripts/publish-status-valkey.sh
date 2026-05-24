@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 ENV_FILE="${REPO_ROOT}/config/valkey.env"
+REGISTRY_TOOL="${REPO_ROOT}/scripts/model-registry.py"
 
 timestamp() {
   date '+%Y-%m-%d %H:%M:%S'
@@ -30,6 +31,7 @@ require_cmd() {
 }
 
 require_file "${ENV_FILE}" "env file"
+require_file "${REGISTRY_TOOL}" "registry tool"
 require_cmd python3
 
 # shellcheck disable=SC1090
@@ -53,11 +55,13 @@ export GEMMA_MODEL_ID
 export GEMMA_MODEL_NAME
 export GEMMA_GPU_INDEX
 export GEMMA_PORT
+export MODEL_REGISTRY_JSON="$("${REGISTRY_TOOL}" json-primary)"
 
 log "publishing runtime status to ${VALKEY_HOST}:${VALKEY_PORT}/${VALKEY_DB}"
 
 python3 - <<'PY'
 import datetime as dt
+import json
 import os
 import socket
 import subprocess
@@ -213,22 +217,12 @@ prefix = env("KEY_PREFIX", "llm")
 ttl = int(env("STATUS_TTL_SECONDS", "30"))
 updated_at = now_iso()
 
-models = [
-    {
-        "model_id": env("QWEN_MODEL_ID", "qwen36"),
-        "model_name": env("QWEN_MODEL_NAME", "Qwen3.6-35B-A3B"),
-        "gpu_index": env("QWEN_GPU_INDEX", "0"),
-        "port": env("QWEN_PORT", "8080"),
-        "health_url": env("QWEN_HEALTH_URL", "http://127.0.0.1:8080/health"),
-    },
-    {
-        "model_id": env("GEMMA_MODEL_ID", "gemma4-31b"),
-        "model_name": env("GEMMA_MODEL_NAME", "Gemma-4-31B-IT"),
-        "gpu_index": env("GEMMA_GPU_INDEX", "1"),
-        "port": env("GEMMA_PORT", "8081"),
-        "health_url": env("GEMMA_HEALTH_URL", "http://127.0.0.1:8081/health"),
-    },
-]
+models = json.loads(env("MODEL_REGISTRY_JSON", "[]"))
+for model in models:
+    model["model_id"] = model["id"]
+    model["model_name"] = model["name"]
+    model["gpu_index"] = model["cuda_visible_devices"].split(",")[0]
+    model["health_url"] = f"http://127.0.0.1:{model['port']}/health"
 
 for model in models:
     status, reason = http_status(model["health_url"])

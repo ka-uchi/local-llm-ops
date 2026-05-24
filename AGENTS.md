@@ -26,10 +26,12 @@
 - `config/`: モデルごとの env とレジストリ
 - `config/valkey.env`: inference host 上の暫定状態ストア設定
 - `config/valkey-server.env`: inference host 上のローカル Valkey サーバ設定
+- `config/70b.env`: 将来の 70B 起動設定
 - `scripts/`: 起動停止、ヘルスチェック、GPU 状態確認、ベンチ
 - `systemd/`: サービス定義サンプル
 - `docs/`: 運用手順、注意点、将来拡張
 - `docs/openclaw-valkey-contract.md`: openclaw 側が参照するキー仕様
+- `scripts/model-registry.py`: model-registry.yaml を読む共通ツール
 - `llama.cpp/` と `models/` はトップレベル git 管理対象外。再現性は setup 手順で担保する
 
 ## 安全方針

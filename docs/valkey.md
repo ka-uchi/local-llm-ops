@@ -78,6 +78,8 @@
 2. `nvidia-smi` から GPU の基本状態を取得
 3. `valkey` に hash と TTL を書き込む
 
+対象モデル一覧は [config/model-registry.yaml](/home/kzkchd/llm/config/model-registry.yaml) の primary モデルから取得する。
+
 TTL を付けることで、publisher が止まった場合に古い状態が残り続けないようにする。
 
 ## 設定

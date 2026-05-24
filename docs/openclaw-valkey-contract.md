@@ -6,6 +6,8 @@
 
 ## 参照キー
 
+この仕様における primary モデル一覧は [config/model-registry.yaml](/home/kzkchd/llm/config/model-registry.yaml) を基準にする。
+
 ### ノード全体
 
 キー: `llm:node:inference-node-01`

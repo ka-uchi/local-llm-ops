@@ -3,7 +3,7 @@ set -euo pipefail
 
 URL="http://127.0.0.1:8081/v1/chat/completions"
 MODEL="gemma4-31b"
-PROMPT="300文字以内で、現在の稼働状態を1文で説明してください。"
+PROMPT="現在の稼働状態を日本語で1文だけ返してください。推論過程は出さず、答えだけ短く返してください。"
 
 http_post_json() {
   local url="$1"
@@ -43,11 +43,11 @@ PY
 payload="{
   \"model\": \"${MODEL}\",
   \"messages\": [
-    {\"role\": \"system\", \"content\": \"簡潔に日本語で答えてください。\"},
+    {\"role\": \"system\", \"content\": \"推論過程は出さず、最終回答だけを簡潔な日本語で返してください。\"},
     {\"role\": \"user\", \"content\": \"${PROMPT}\"}
   ],
-  \"temperature\": 0.2,
-  \"max_tokens\": 120
+  \"temperature\": 0.0,
+  \"max_tokens\": 128
 }"
 
 start_ns="$(date +%s%N)"

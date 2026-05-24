@@ -7,6 +7,7 @@
 ```bash
 CUDA_VISIBLE_DEVICES=0 scripts/start-qwen36.sh
 CUDA_VISIBLE_DEVICES=1 scripts/start-gemma4-31b.sh
+scripts/list-models.sh
 ```
 
 ### 手動停止
@@ -24,6 +25,7 @@ scripts/gpu-status.sh
 scripts/valkey-status.sh
 scripts/publish-status-valkey.sh
 scripts/valkey-dump.sh
+scripts/list-models.sh
 ```
 
 ### 定期 publish
@@ -59,6 +61,7 @@ Gemma 4 は `reasoning_content` を返すことがあるため、実運用では
 - `systemd` または呼び出し元シェルで GPU を固定する
 - 単一 GPU 運用で `tensor-split` を渡さない
 - モデル差し替え前に、参照プロセスが停止していることを必ず確認する
+- `llm-status-publisher` と `healthcheck` は `config/model-registry.yaml` の primary モデル一覧を参照する
 
 ## 破壊的操作に関する扱い
 

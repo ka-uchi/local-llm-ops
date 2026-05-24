@@ -50,7 +50,6 @@ port_in_use() {
 }
 
 mkdir -p "${LOG_DIR}"
-require_cmd nohup
 require_cmd bash
 
 [[ -f "${ENV_FILE}" ]] || fail "env file not found: ${ENV_FILE}"
@@ -95,8 +94,11 @@ declare -a cmd=(
   --threads "${THREADS}"
   --parallel "${PARALLEL}"
   --main-gpu "${MAIN_GPU}"
-  --chat-template "${CHAT_TEMPLATE}"
 )
+
+if [[ -n "${CHAT_TEMPLATE:-}" ]]; then
+  cmd+=(--chat-template "${CHAT_TEMPLATE}")
+fi
 
 if [[ -n "${API_KEY:-}" ]]; then
   cmd+=(--api-key "${API_KEY}")
@@ -108,6 +110,12 @@ if [[ -n "${EXTRA_ARGS:-}" ]]; then
   cmd+=("${extra_args[@]}")
 fi
 
+if [[ "${RUN_FOREGROUND:-0}" == "1" ]]; then
+  echo "$$" > "${PID_FILE}"
+  exec "${cmd[@]}" >>"${LOG_FILE}" 2>&1
+fi
+
+require_cmd nohup
 nohup "${cmd[@]}" >>"${LOG_FILE}" 2>&1 &
 
 server_pid="$!"

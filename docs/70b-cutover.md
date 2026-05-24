@@ -33,7 +33,11 @@ scripts/healthcheck.sh
 
 ### 3. 70B モデルを起動する
 
-将来の 70B 起動方法は別途追加する。現時点では [systemd/llama-70b.service.example](/home/kzkchd/llm/systemd/llama-70b.service.example) を参照する。
+```bash
+CUDA_VISIBLE_DEVICES=0,1 scripts/start-70b.sh
+```
+
+常駐化する場合は [systemd/llama-70b.service.example](/home/kzkchd/llm/systemd/llama-70b.service.example) を参照する。
 
 ### 4. 状態を再 publish する
 
@@ -47,6 +51,7 @@ scripts/valkey-dump.sh
 70B 運用を解除して通常運用へ戻す場合:
 
 ```bash
+scripts/stop-70b.sh
 scripts/clear-cluster-mode.sh
 CUDA_VISIBLE_DEVICES=0 scripts/start-qwen36.sh
 CUDA_VISIBLE_DEVICES=1 scripts/start-gemma4-31b.sh

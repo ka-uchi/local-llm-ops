@@ -30,7 +30,8 @@ journalctl -u llama-gemma4-31b.service -n 100
 
 - Qwen サービスは `Environment=CUDA_VISIBLE_DEVICES=0`
 - Gemma サービスは `Environment=CUDA_VISIBLE_DEVICES=1`
-- 起動スクリプト側では GPU 可視設定を上書きしない
+- `RUN_FOREGROUND=1` で起動スクリプトが `llama-server` を foreground 実行する
+- そのため `systemd` は `Type=simple` と `Restart=on-failure` で本体プロセスを直接監視する
 - そのため、手動起動時も同じ前提を再現したい場合は呼び出し側で `CUDA_VISIBLE_DEVICES` を指定する
 
 例:

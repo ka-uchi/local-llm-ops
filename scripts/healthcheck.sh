@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-QWEN_URL="http://127.0.0.1:8080/health"
-GEMMA_URL="http://127.0.0.1:8081/health"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+REGISTRY_TOOL="${REPO_ROOT}/scripts/model-registry.py"
+
+[[ -x "${REGISTRY_TOOL}" ]] || {
+  echo "ERROR: registry tool not executable: ${REGISTRY_TOOL}" >&2
+  exit 1
+}
 
 http_get() {
   local url="$1"
@@ -47,7 +53,8 @@ check_one() {
 
 status=0
 
-check_one "qwen36" "${QWEN_URL}" || status=1
-check_one "gemma4-31b" "${GEMMA_URL}" || status=1
+while IFS=$'\t' read -r model_id host port; do
+  check_one "${model_id}" "http://${host}:${port}/health" || status=1
+done < <("${REGISTRY_TOOL}" health-targets)
 
 exit "${status}"

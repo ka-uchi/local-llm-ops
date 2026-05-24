@@ -58,4 +58,7 @@ future_models:
       type: multi_gpu
       split_mode: layer
       tensor_split: "1,1"
+    env_file: /home/kzkchd/llm/config/70b.env
+    start_script: /home/kzkchd/llm/scripts/start-70b.sh
+    stop_script: /home/kzkchd/llm/scripts/stop-70b.sh
     systemd_example: /home/kzkchd/llm/systemd/llama-70b.service.example

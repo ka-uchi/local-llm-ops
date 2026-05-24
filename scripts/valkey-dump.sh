@@ -40,6 +40,7 @@ export VALKEY_PORT
 export VALKEY_DB
 export VALKEY_PASSWORD
 export KEY_PREFIX
+export NODE_ID
 
 python3 - <<'PY'
 import json
@@ -112,7 +113,7 @@ password = os.environ.get("VALKEY_PASSWORD", "")
 prefix = os.environ["KEY_PREFIX"]
 
 keys = [
-    f"{prefix}:node:inference-node-01",
+    f"{prefix}:node:{os.environ['NODE_ID']}",
     f"{prefix}:model:qwen36",
     f"{prefix}:model:gemma4-31b",
     f"{prefix}:gpu:0",

@@ -3,17 +3,17 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-ENV_FILE="${REPO_ROOT}/config/qwen36.env"
+ENV_FILE="${REPO_ROOT}/config/70b.env"
 LOG_DIR="${REPO_ROOT}/logs"
-LOG_FILE="${LOG_DIR}/qwen36.log"
-PID_FILE="${LOG_DIR}/qwen36.pid"
+LOG_FILE="${LOG_DIR}/70b.log"
+PID_FILE="${LOG_DIR}/70b.pid"
 
 timestamp() {
   date '+%Y-%m-%d %H:%M:%S'
 }
 
 log() {
-  echo "[$(timestamp)] [qwen36] $*"
+  echo "[$(timestamp)] [70b] $*"
 }
 
 fail() {
@@ -32,12 +32,6 @@ require_cmd() {
   command -v "${name}" >/dev/null 2>&1 || fail "required command not found: ${name}"
 }
 
-require_cuda_visible_devices() {
-  local expected="$1"
-  [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]] || fail "CUDA_VISIBLE_DEVICES is not set; expected ${expected}"
-  [[ "${CUDA_VISIBLE_DEVICES}" == "${expected}" ]] || fail "CUDA_VISIBLE_DEVICES must be ${expected}, got ${CUDA_VISIBLE_DEVICES}"
-}
-
 port_in_use() {
   local port="$1"
   if command -v ss >/dev/null 2>&1; then
@@ -49,37 +43,37 @@ port_in_use() {
   fi
 }
 
+require_cuda_visible_devices() {
+  [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]] || fail "CUDA_VISIBLE_DEVICES is not set; expected 0,1"
+  [[ "${CUDA_VISIBLE_DEVICES}" == "0,1" ]] || fail "CUDA_VISIBLE_DEVICES must be 0,1, got ${CUDA_VISIBLE_DEVICES}"
+}
+
 mkdir -p "${LOG_DIR}"
-require_cmd bash
 
 [[ -f "${ENV_FILE}" ]] || fail "env file not found: ${ENV_FILE}"
 # shellcheck disable=SC1090
 source "${ENV_FILE}"
 
-require_cuda_visible_devices "0"
-
+require_cmd bash
+require_cuda_visible_devices
 require_file "${SERVER_BIN}" "llama-server binary"
 require_file "${MODEL_PATH}" "model file"
+
+if [[ -f "${REPO_ROOT}/logs/qwen36.pid" ]] || [[ -f "${REPO_ROOT}/logs/gemma4-31b.pid" ]]; then
+  fail "qwen36/gemma4-31b must be stopped before starting 70b"
+fi
 
 if [[ -f "${PID_FILE}" ]]; then
   existing_pid="$(cat "${PID_FILE}")"
   if [[ -n "${existing_pid}" ]] && kill -0 "${existing_pid}" 2>/dev/null; then
-    fail "qwen36 is already running with PID ${existing_pid}"
+    fail "70b is already running with PID ${existing_pid}"
   fi
   rm -f "${PID_FILE}"
 fi
 
-if port_in_use "${PORT}"; then
-  fail "port ${PORT} is already in use"
+if port_in_use "${PORT}" || port_in_use 8080 || port_in_use 8081; then
+  fail "required port is already in use; stop qwen/gemma and free 8090 before starting 70b"
 fi
-
-log "starting ${MODEL_NAME}"
-log "repo root: ${REPO_ROOT}"
-log "server bin: ${SERVER_BIN}"
-log "model path: ${MODEL_PATH}"
-log "port: ${PORT}"
-log "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-<unset>}"
-log "stdout/stderr log: ${LOG_FILE}"
 
 declare -a cmd=(
   "${SERVER_BIN}"
@@ -94,6 +88,8 @@ declare -a cmd=(
   --threads "${THREADS}"
   --parallel "${PARALLEL}"
   --main-gpu "${MAIN_GPU}"
+  --split-mode "${SPLIT_MODE}"
+  --tensor-split "${TENSOR_SPLIT}"
 )
 
 if [[ -n "${CHAT_TEMPLATE:-}" ]]; then
@@ -105,10 +101,15 @@ if [[ -n "${API_KEY:-}" ]]; then
 fi
 
 if [[ -n "${EXTRA_ARGS:-}" ]]; then
-  # EXTRA_ARGS is intentionally split on shell words to keep env configuration simple.
   read -r -a extra_args <<< "${EXTRA_ARGS}"
   cmd+=("${extra_args[@]}")
 fi
+
+log "starting ${MODEL_NAME}"
+log "model path: ${MODEL_PATH}"
+log "port: ${PORT}"
+log "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES}"
+log "stdout/stderr log: ${LOG_FILE}"
 
 if [[ "${RUN_FOREGROUND:-0}" == "1" ]]; then
   echo "$$" > "${PID_FILE}"
@@ -117,7 +118,6 @@ fi
 
 require_cmd nohup
 nohup "${cmd[@]}" >>"${LOG_FILE}" 2>&1 &
-
 server_pid="$!"
 echo "${server_pid}" > "${PID_FILE}"
 sleep 2
