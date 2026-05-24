@@ -6,12 +6,12 @@
 
 現時点の `~/llm` 実装は以下を持つ。
 
-- [config/valkey-server.env](/home/kzkchd/llm/config/valkey-server.env)
-- [config/valkey.conf](/home/kzkchd/llm/config/valkey.conf)
-- [scripts/start-valkey.sh](/home/kzkchd/llm/scripts/start-valkey.sh)
-- [scripts/stop-valkey.sh](/home/kzkchd/llm/scripts/stop-valkey.sh)
-- [scripts/valkey-status.sh](/home/kzkchd/llm/scripts/valkey-status.sh)
-- [systemd/valkey-local.service](/home/kzkchd/llm/systemd/valkey-local.service)
+- [config/valkey-server.env](../config/valkey-server.env)
+- [config/valkey.conf](../config/valkey.conf)
+- [scripts/start-valkey.sh](../scripts/start-valkey.sh)
+- [scripts/stop-valkey.sh](../scripts/stop-valkey.sh)
+- [scripts/valkey-status.sh](../scripts/valkey-status.sh)
+- [systemd/valkey-local.service](../systemd/valkey-local.service)
 
 ## バイナリ検出ルール
 
@@ -40,7 +40,7 @@ snap services valkey
 ls -la /snap/bin | rg '^valkey'
 ```
 
-`start-valkey.sh` が自動検出できない場合は、実行ファイルの実パスを [config/valkey-server.env](/home/kzkchd/llm/config/valkey-server.env) の `VALKEY_SERVER_BIN` に設定する。
+`start-valkey.sh` が自動検出できない場合は、実行ファイルの実パスを [config/valkey-server.env](../config/valkey-server.env) の `VALKEY_SERVER_BIN` に設定する。
 
 ## 導入後の初回確認
 
@@ -84,8 +84,8 @@ journalctl -u llm-status-publisher.service -n 50
 
 ## 設定変更
 
-- bind / port / password: [config/valkey-server.env](/home/kzkchd/llm/config/valkey-server.env)
-- 永続化設定: [config/valkey.conf](/home/kzkchd/llm/config/valkey.conf)
+- bind / port / password: [config/valkey-server.env](../config/valkey-server.env)
+- 永続化設定: [config/valkey.conf](../config/valkey.conf)
 
 ## 注意
 

@@ -7,7 +7,7 @@ Qwen と Gemma の通常運用から、2 GPU 分散の 70B 運用へ切り替え
 ## 前提
 
 - `cluster_mode=single-70b` は「通常の Qwen/Gemma ルーティングを止める」ための制御状態
-- `openclaw` は [docs/openclaw-valkey-contract.md](/home/kzkchd/llm/docs/openclaw-valkey-contract.md) の優先順位で判定する
+- `openclaw` は [docs/openclaw-valkey-contract.md](./openclaw-valkey-contract.md) の優先順位で判定する
 
 ## 切替手順
 
@@ -37,7 +37,7 @@ scripts/healthcheck.sh
 CUDA_VISIBLE_DEVICES=0,1 scripts/start-70b.sh
 ```
 
-常駐化する場合は [systemd/llama-70b.service.example](/home/kzkchd/llm/systemd/llama-70b.service.example) を参照する。
+常駐化する場合は [systemd/llama-70b.service.example](../systemd/llama-70b.service.example) を参照する。
 
 ### 4. 状態を再 publish する
 

@@ -7,8 +7,8 @@
 ## `valkey-server or redis-server not found`
 
 - `scripts/start-valkey.sh` は `valkey-server` または `redis-server` を必要とする
-- バイナリが別パスにある場合は [config/valkey-server.env](/home/kzkchd/llm/config/valkey-server.env) の `VALKEY_SERVER_BIN` に絶対パスを設定する
-- 導入手順は [docs/valkey-install.md](/home/kzkchd/llm/docs/valkey-install.md) を参照する
+- バイナリが別パスにある場合は [config/valkey-server.env](../config/valkey-server.env) の `VALKEY_SERVER_BIN` に絶対パスを設定する
+- 導入手順は [docs/valkey-install.md](./valkey-install.md) を参照する
 
 ## `model file not found`
 

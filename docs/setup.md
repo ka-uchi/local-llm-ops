@@ -7,7 +7,7 @@
 再現性は以下で担保する。
 
 - `llama.cpp` は固定 commit で取得する
-- build 手順は [scripts/setup-llama-cpp.sh](/home/kzkchd/llm/scripts/setup-llama-cpp.sh) に固定する
+- build 手順は [scripts/setup-llama-cpp.sh](../scripts/setup-llama-cpp.sh) に固定する
 - モデルファイルの配置先と名前は `config/*.env` に固定する
 
 ## 対象コミット
