@@ -105,8 +105,8 @@ scripts/publish-status-valkey.sh
 systemd timer で定期更新:
 
 ```bash
-sudo cp /home/kzkchd/llm/systemd/llm-status-publisher.service /etc/systemd/system/
-sudo cp /home/kzkchd/llm/systemd/llm-status-publisher.timer /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llm-status-publisher.service /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llm-status-publisher.timer /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now llm-status-publisher.timer
 ```

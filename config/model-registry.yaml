@@ -2,8 +2,8 @@ models:
   - id: qwen36
     name: Qwen3.6-35B-A3B
     role: primary
-    model_path: /home/kzkchd/llm/models/Qwen3.6-35B-A3B-GGUF/Qwen_Qwen3.6-35B-A3B-Q4_K_M.gguf
-    server_bin: /home/kzkchd/llm/llama.cpp/build/bin/llama-server
+    model_path: ${REPO_ROOT}/models/Qwen3.6-35B-A3B-GGUF/Qwen_Qwen3.6-35B-A3B-Q4_K_M.gguf
+    server_bin: ${REPO_ROOT}/llama.cpp/build/bin/llama-server
     port: 8080
     host: 0.0.0.0
     cuda_visible_devices: "0"
@@ -15,15 +15,15 @@ models:
       type: single_gpu
       split_mode: none
       tensor_split: null
-    env_file: /home/kzkchd/llm/config/qwen36.env
-    start_script: /home/kzkchd/llm/scripts/start-qwen36.sh
-    stop_script: /home/kzkchd/llm/scripts/stop-qwen36.sh
+    env_file: ${REPO_ROOT}/config/qwen36.env
+    start_script: ${REPO_ROOT}/scripts/start-qwen36.sh
+    stop_script: ${REPO_ROOT}/scripts/stop-qwen36.sh
 
   - id: gemma4-31b
     name: Gemma 4 31B IT
     role: primary
-    model_path: /home/kzkchd/llm/models/gemma-4-31b-it/google_gemma-4-31B-it-Q4_K_M.gguf
-    server_bin: /home/kzkchd/llm/llama.cpp/build/bin/llama-server
+    model_path: ${REPO_ROOT}/models/gemma-4-31b-it/google_gemma-4-31B-it-Q4_K_M.gguf
+    server_bin: ${REPO_ROOT}/llama.cpp/build/bin/llama-server
     port: 8081
     host: 0.0.0.0
     cuda_visible_devices: "1"
@@ -35,16 +35,16 @@ models:
       type: single_gpu
       split_mode: none
       tensor_split: null
-    env_file: /home/kzkchd/llm/config/gemma4-31b.env
-    start_script: /home/kzkchd/llm/scripts/start-gemma4-31b.sh
-    stop_script: /home/kzkchd/llm/scripts/stop-gemma4-31b.sh
+    env_file: ${REPO_ROOT}/config/gemma4-31b.env
+    start_script: ${REPO_ROOT}/scripts/start-gemma4-31b.sh
+    stop_script: ${REPO_ROOT}/scripts/stop-gemma4-31b.sh
 
 future_models:
   - id: dual-gpu-70b
     name: 70B-class model placeholder
     role: future
-    model_path: /home/kzkchd/llm/models/REPLACE_WITH_70B_MODEL.gguf
-    server_bin: /home/kzkchd/llm/llama.cpp/build/bin/llama-server
+    model_path: ${REPO_ROOT}/models/REPLACE_WITH_70B_MODEL.gguf
+    server_bin: ${REPO_ROOT}/llama.cpp/build/bin/llama-server
     port: 8090
     host: 0.0.0.0
     cuda_visible_devices: "0,1"
@@ -58,7 +58,7 @@ future_models:
       type: multi_gpu
       split_mode: layer
       tensor_split: "1,1"
-    env_file: /home/kzkchd/llm/config/70b.env
-    start_script: /home/kzkchd/llm/scripts/start-70b.sh
-    stop_script: /home/kzkchd/llm/scripts/stop-70b.sh
-    systemd_example: /home/kzkchd/llm/systemd/llama-70b.service.example
+    env_file: ${REPO_ROOT}/config/70b.env
+    start_script: ${REPO_ROOT}/scripts/start-70b.sh
+    stop_script: ${REPO_ROOT}/scripts/stop-70b.sh
+    systemd_example: ${REPO_ROOT}/systemd/llama-70b.service.example

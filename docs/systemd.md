@@ -4,9 +4,14 @@
 
 サンプル定義は `systemd/` にある。必要に応じて `/etc/systemd/system/` へ配置する。
 
+`systemd/*.service` の以下は事前に置換する。
+
+- `REPLACE_WITH_LOCAL_USER`
+- `REPLACE_WITH_REPO_ROOT`
+
 ```bash
-sudo cp /home/kzkchd/llm/systemd/llama-qwen36.service /etc/systemd/system/
-sudo cp /home/kzkchd/llm/systemd/llama-gemma4-31b.service /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llama-qwen36.service /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llama-gemma4-31b.service /etc/systemd/system/
 sudo systemctl daemon-reload
 ```
 

@@ -2,7 +2,7 @@
 
 ## `llama-server binary not found`
 
-`/home/kzkchd/llm/llama.cpp/build/bin/llama-server` の存在を確認する。
+`${HOME}/llm/llama.cpp/build/bin/llama-server` の存在を確認する。
 
 ## `valkey-server or redis-server not found`
 

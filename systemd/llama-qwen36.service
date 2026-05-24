@@ -5,12 +5,12 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=kzkchd
-WorkingDirectory=/home/kzkchd/llm
+User=REPLACE_WITH_LOCAL_USER
+WorkingDirectory=REPLACE_WITH_REPO_ROOT
 Environment=CUDA_VISIBLE_DEVICES=0
 Environment=RUN_FOREGROUND=1
-ExecStart=/home/kzkchd/llm/scripts/start-qwen36.sh
-ExecStop=/home/kzkchd/llm/scripts/stop-qwen36.sh
+ExecStart=REPLACE_WITH_REPO_ROOT/scripts/start-qwen36.sh
+ExecStop=REPLACE_WITH_REPO_ROOT/scripts/stop-qwen36.sh
 Restart=on-failure
 RestartSec=5
 TimeoutStartSec=120

@@ -55,7 +55,7 @@ scripts/publish-status-valkey.sh
 ## systemd 登録
 
 ```bash
-sudo cp /home/kzkchd/llm/systemd/valkey-local.service /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/valkey-local.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now valkey-local.service
 ```
@@ -65,8 +65,8 @@ sudo systemctl enable --now valkey-local.service
 publisher timer も使う場合:
 
 ```bash
-sudo cp /home/kzkchd/llm/systemd/llm-status-publisher.service /etc/systemd/system/
-sudo cp /home/kzkchd/llm/systemd/llm-status-publisher.timer /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llm-status-publisher.service /etc/systemd/system/
+sudo cp ${HOME}/llm/systemd/llm-status-publisher.timer /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now llm-status-publisher.timer
 ```

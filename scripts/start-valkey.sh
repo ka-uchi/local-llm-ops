@@ -108,9 +108,9 @@ replacements = {
     "bind 127.0.0.1": f"bind {os.environ['VALKEY_SERVER_HOST']}",
     "port 6379": f"port {os.environ['VALKEY_SERVER_PORT']}",
     "loglevel notice": f"loglevel {os.environ['VALKEY_SERVER_LOG_LEVEL']}",
-    "dir /home/kzkchd/llm/var/valkey/data": f"dir {os.environ['VALKEY_SERVER_DB_DIR']}",
-    "pidfile /home/kzkchd/llm/var/valkey/valkey.pid": f"pidfile {os.environ['VALKEY_SERVER_PID_FILE']}",
-    "logfile /home/kzkchd/llm/logs/valkey.log": f"logfile {os.environ['VALKEY_SERVER_LOG_FILE']}",
+    "dir __VALKEY_SERVER_DB_DIR__": f"dir {os.environ['VALKEY_SERVER_DB_DIR']}",
+    "pidfile __VALKEY_SERVER_PID_FILE__": f"pidfile {os.environ['VALKEY_SERVER_PID_FILE']}",
+    "logfile __VALKEY_SERVER_LOG_FILE__": f"logfile {os.environ['VALKEY_SERVER_LOG_FILE']}",
 }
 for source, target in replacements.items():
     text = text.replace(source, target)
